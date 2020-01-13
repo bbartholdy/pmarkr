@@ -22,5 +22,3 @@ library(pmarkr)
 #4. (optional) Open the pmarkr shiny app
 runPMark()
 ```
-
-#Usage
