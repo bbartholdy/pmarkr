@@ -27,22 +27,12 @@ server <- function(input, output){
                        dec = input$dec)
       paste(names(df), collapse = ", ")
     } else {
-      paste(names(MBhum[,2:5]), collapse = ", ")
+      paste(names(pmarkr::MBhum[,2:5]), collapse = ", ")
     }
   })
   output$vars2 <- renderText({vars2 <- vars2()
   vars2})
 
-#If a file is being uploaded...
-  #res1 <-  eventReactive(input$calc1, {
-    #if(input$dat1 == "Upload..."){
-      #inData1 <- read.table(input$up1$datapath,
-       #                     header = input$header1,
-        #                    sep = input$sep1,
-         #                   dec = input$dec1)
-    #}
-    #pmarkr:::PMark_shiny(formula = as.formula(input$form1), data = input$dat1, n = input$n1, cut_p = input$prob1, iter = input$iter1, prior = input$prior1)
-  #})
     mark2 <- eventReactive(input$calc1, {
               if(input$dat1 == "Upload..."){
                   inDat1 <- read.table(input$up1$datapath,
