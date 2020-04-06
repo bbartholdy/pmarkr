@@ -1,4 +1,4 @@
-#DFA and sex using femora from MB
+#DFA and sex using humeri from MB
   #load required packages
 library(MASS)
 library(ggplot2) #only needed to create the graphs
@@ -26,7 +26,7 @@ PMark <- function(cut_p = 0.8, n, ...){
 #function obtained from https://www.r-bloggers.com/calculate-leave-one-out-prediction-for-glm/
 library(doParallel)
 library(foreach)
-registerDoParallel(cores = 8)
+registerDoParallel(cores = 4)
 loo_predict <- function(obj) {
   yhat <- foreach(i = 1:nrow(obj$data), .combine = rbind) %dopar% {
     predict(update(obj, data = obj$data[-i, ]), obj$data[i,], type = "response")
@@ -44,7 +44,7 @@ loop <- function(...){
     mis <- (tb6[2] + tb6[3])
     acc1.F <- tb6[1] / (tb6[1] + tb6[2])
     acc1.M <- tb6[4] / (tb6[3] + tb6[4])
-    acc1 <- mean(c(acc1.M, acc1.F))
+    acc1 <- (tb6[1] + tb6[4]) / sum(tb6)
     lr_newdata <- newdata
     lr_newdata$sex <- as.numeric(lr_newdata$sex)
     lr_newdata$sex[lr_newdata$sex == 2] <- 0
@@ -56,7 +56,7 @@ loop <- function(...){
     mis2 <- tb7[2] + tb7[3]
     acc2.F <- tb7[1] / (tb7[1] + tb7[2])
     acc2.M <- tb7[4] / (tb7[3] + tb7[4])
-    acc2 <- mean(c(acc2.M, acc2.F))
+    acc2 <- (tb7[1] + tb7[4]) / sum(tb7) #total accuracy
     df[i-9,] <- c(acc1, acc2)
   }
   dfa_acc <- mean(df[,1], na.rm = T)
@@ -103,6 +103,14 @@ as.data.frame(cbind(as.character(outlier$outliers), as.character(data$sex))) #3 
 out_data <- data[-c(2,5,10,76),] #removal of outliers
 female <- subset(out_data, out_data$sex == "F")
 male <- subset(out_data, out_data$sex == "M")
+  #linearity of logodds and predictors
+#logodds <- log(lreg$fitted.values / (1 - lreg$fitted.values))
+lr_data$lintest_length <- log(data[,3])*data[,3]
+lr_data$lintest_head <- log(data[,4])*data[,4]
+lr_data$lintest_epi <- log(data[,5])*data[,5]
+lintest <- glm(sex ~ length + head + epi + lintest_length + lintest_head + lintest_epi,
+               data = lr_data, family = binomial(link = "logit"))
+summary(lintest)
 
 #MANOVA
 maov <- manova(cbind(length, head, epi) ~ sex, data = data)
@@ -145,13 +153,13 @@ ggplot(dfa_pl, aes(x = LD1, fill = Sex, alpha = 0.6)) +
   geom_density() +
   scale_alpha(guide = "none") +
   geom_vline(aes(xintercept = 0), linetype = "solid") +
-  geom_vline(aes(xintercept = 0.53), linetype = "dotted") +
-  geom_vline(aes(xintercept = -0.53), linetype = "dotted") +
-  geom_vline(aes(xintercept = 0.84), linetype = "dashed") +
-  geom_vline(aes(xintercept = -0.84), linetype = "dashed") +
-  geom_vline(aes(xintercept = 1.13), linetype = "dotdash") +
-  geom_vline(aes(xintercept = -1.13), linetype = "dotdash") +
-  xlab("LD1") + ylab("Density") +
+  geom_vline(aes(xintercept = 0.45), linetype = "dotted") +
+  geom_vline(aes(xintercept = -0.47), linetype = "dotted") +
+  geom_vline(aes(xintercept = 0.75), linetype = "dashed") +
+  geom_vline(aes(xintercept = -0.77), linetype = "dashed") +
+  geom_vline(aes(xintercept = 0.96), linetype = "dotdash") +
+  geom_vline(aes(xintercept = -1.03), linetype = "dotdash") +
+  xlab("LD4") + ylab("Density") +
   theme_bw()
 
 #accuracy
@@ -192,11 +200,11 @@ tb3[2] + tb3[3]
 #load PMark function (adjust variables if needed)
 #iterations
 iter <- 1000
-cut <- replicate(iter, PMark(cut_p = 0.8, n = 84), simplify = F)
+cut <- replicate(iter, PMark(cut_p = 0.95, n = 84), simplify = F)
 cut.df <- as.data.frame(do.call(rbind, cut)) #convert list to data frame
 calc_pmark <- colMeans(cut.df, na.rm = T)
-mean(abs(calc_pmark))
-
+names(calc_pmark) <- c("Female", "Male")
+calc_pmark
 
 #--------------------------Logistic regression---------------------------------
 
@@ -283,7 +291,7 @@ ggplot(lr_data, aes(x = epi, y = sex, col = as.factor(sex))) +
 #load loop function
 #--------WARNING--------: long comptation time (reduce the number of iterations if needed)
 df <- as.data.frame(matrix(nrow = length(10:80), ncol = 2))
-n.iter2 <- 1000
+n.iter2 <- 10
 result <- replicate(n.iter2, loop(), simplify = F)
 df2 <- as.data.frame(do.call(rbind, result))
 df2.1 <- df2[,1]
