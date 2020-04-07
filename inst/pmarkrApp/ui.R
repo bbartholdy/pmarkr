@@ -54,7 +54,7 @@ ui <- fluidPage(
         sliderInput("prob1", "PMark probability", value = 0.8, min = 0.01, max = 0.99, step = 0.01)
   ),
            wellPanel(
-        tags$h4("Bootstrap settings"),
+        tags$h4("Resampling settings"),
         numericInput("n1", "Subsample size", value = 80),
         p("Recommended size:"),
         verbatimTextOutput("nout1"),
@@ -67,11 +67,16 @@ ui <- fluidPage(
     #),
   #mainPanel(width = 6,
   column(8,
-            textOutput("result1"),
+            textOutput("group1"),
+            textOutput("group2"),
             tags$br(),
             plotOutput("plot1"),
-            tags$style("#result1{
-                          color: #9309bd;
+            tags$style("#group1{
+                          color: #fc322b;
+                       font-size: 22px;
+                       }"),
+            tags$style("#group2{
+                          color: #02d6d6;
                        font-size: 22px;
                        }")
         )

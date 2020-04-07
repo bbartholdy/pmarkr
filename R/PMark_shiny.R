@@ -9,7 +9,7 @@
 #' @return Returns the PMark value and a plot of the analysis including the PMark value.
 #' @importFrom stats as.formula get_all_vars na.omit
 #' @importFrom ggplot2 ggplot aes geom_density scale_alpha geom_vline xlab ylab theme_bw
-PMark_shiny <- function(formula, data = "MB11", n, cut_p, iter, prior){
+PMark_shiny <- function(formula, data = "MB11", n, cut_p, iter, prior, replace = F){
   stopifnot(!is.null(data))
   ldf <- as.formula(formula)
   cl <- match.call()
@@ -20,7 +20,7 @@ PMark_shiny <- function(formula, data = "MB11", n, cut_p, iter, prior){
   }
   z <- lda(formula = ldf, data = df, CV = F, prior = prior)
   suppressWarnings(pred_z <- predict(z, newdata = df, prior = prior))
-  cut_new <- replicate(iter, demark(ldf, df, n, cut_p, prior), simplify = F)
+  cut_new <- replicate(iter, demark(ldf, df, n, cut_p, prior, replace), simplify = F)
   cut_df <- as.data.frame(do.call(rbind, cut_new))
   mu_cut <- colMeans(cut_df, na.rm = T)
   #The combination formula for calculating how many combinations of subsamples there are with a 80 out of 84
@@ -31,12 +31,12 @@ PMark_shiny <- function(formula, data = "MB11", n, cut_p, iter, prior){
   if(iter > nCk){
     warning("The number of iterations exceeds the number of combinations of subsamples")
   }
-  PMark <- round(mean(abs(mu_cut)),4)
-  if(!is.finite(PMark)){
+  #PMark <- round(mean(abs(mu_cut)),4)
+  if(!is.finite(mu_cut)){
     stop("Unable to calculate PMark. Try increasing 'n' and/or 'iter' arguments")
   }
   class(z) <- "pmark"
-  z$PMark <- PMark
+  z$PMark <- mu_cut
 
   #plot
   pl_data <- get_all_vars(z, df)
@@ -47,11 +47,11 @@ PMark_shiny <- function(formula, data = "MB11", n, cut_p, iter, prior){
     geom_density() +
     scale_alpha(guide = "none") +
     geom_vline(aes(xintercept = 0), linetype = "solid") +
-    geom_vline(aes(xintercept = PMark), linetype = "dotted") +
-    geom_vline(aes(xintercept = -PMark), linetype = "dotted") +
+    geom_vline(aes(xintercept = mu_cut[2]), linetype = "dotted") +
+    geom_vline(aes(xintercept = mu_cut[1]), linetype = "dotted") +
     xlab("LD1") + ylab("Density") +
     theme_bw()
 
 
-  structure(list(pmark = PMark, iter = iter, plot = pl))
+  structure(list(pmark = round(mu_cut,2), iter = iter, plot = pl))
 }

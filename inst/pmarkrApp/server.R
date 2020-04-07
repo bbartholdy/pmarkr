@@ -48,8 +48,14 @@ server <- function(input, output){
                 }
       })
 
-    output$result1 <- renderText({ res <- mark2()
-    paste("PMark: ", "+-", res$pmark)
+    #output$result1 <- renderText({ res <- mark2()
+    #paste("PMarks: ", "group 1 = ", res$pmark[1], "group 2 = ", res$pmark[2])
+    #})
+    output$group1 <- renderText({ res <- mark2()
+    paste("Group 1:", res$pmark[1])
+    })
+    output$group2 <- renderText({ res <- mark2()
+    paste("Group 2:", res$pmark[2])
     })
     output$plot1 <- renderPlot({ res2 <- mark2()
     res2$plot
