@@ -8,15 +8,18 @@
 #' @param prior A vector containing the desired prior probability for each group. Default is an uninformative prior.
 #' @importFrom MASS lda
 #' @importFrom stats na.omit
-demark <- function(formula, data, n, cut_p, prior){
+demark <- function(formula, data, n, cut_p, prior, replace = F){
   df <- na.omit(data)
-  df_new <- df[sample(1:length(df[,1]), n, replace = F), ]
+  df_new <- df[sample(1:length(df[,1]), n, replace), ]
   lda_cut <- lda(formula, df_new, CV = F)
   pred_lda <- predict(lda_cut, newdata = df_new, prior = prior)
   pred_lda$posterior <- pred_lda$posterior * 100
   cutP <- cut_p * 100
   pred_lda$group_1 <- pred_lda$x[round(pred_lda$posterior[,1]) == cutP]
-  pred_lda$group_2 <- pred_lda$x[round(pred_lda$posterior[,2])== 100 - cutP]
+  pred_lda$group_2 <- pred_lda$x[round(pred_lda$posterior[,2])== cutP]
+  pred_lda$group_1[is.null(pred_lda$group_1)] <- NA
+  pred_lda$group_2[is.null(pred_lda$group_2)] <- NA
   cut <- cbind(pred_lda$group_1, pred_lda$group_2)
+  #cut <- colMeans(cut, na.rm = T)
   return(cut)
 }

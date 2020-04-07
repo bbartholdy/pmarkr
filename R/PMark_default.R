@@ -1,13 +1,19 @@
 #' @describeIn PMark Probability demarking points for linear discriminant analysis using a formula
-PMark.default <- function(formula, data, n, cut_p, iter, prior = c(0.5,0.5)){
-  mod.fr <- terms(formula)
-  vars <- attr(mod.fr, "variables")
+PMark.default <- function(formula, data, n, cut_p, iter, prior = c(0.5,0.5), replace = F){
+  #mod.fr <- terms(formula)
+  #vars <- attr(mod.fr, "variables")
   cl <- match.call()
+  mf <- model.frame(formula, data = data)
+  groups <- length(levels(mf[,1]))
+  if(groups != 2){
+    stop(paste("PMark can only be used in a 2-group discriminant analysis. Number of groups detected in data:", groups))
+  }
   datf <- as.data.frame(data)
   dfa2 <- lda(formula, datf, prior = prior)
-  cut_new <- replicate(iter, demark(formula, datf, n, cut_p, prior), simplify = F)
+  cut_new <- replicate(iter, demark(formula, datf, n, cut_p, prior, replace), simplify = F)
   cut_df <- as.data.frame(do.call(rbind, cut_new))
   mu_cut <- colMeans(cut_df, na.rm = T)
+  names(mu_cut) <- c("g1", "g2")
   #The combination formula for calculating how many combinations of subsamples there are with a 80 out of 84
   #n choose k
   N <- nrow(datf)
@@ -16,16 +22,15 @@ PMark.default <- function(formula, data, n, cut_p, iter, prior = c(0.5,0.5)){
   if(iter > nCk){
     warning("The number of iterations exceeds the number of combinations of subsamples")
   }
-  PMark <- mean(abs(mu_cut))
   class(dfa2) <- "pmark"
-  dfa2$PMark <- PMark
+  dfa2$PMark <- mu_cut
   cat("Formula:", "", as.character(cl[2L]), "\n");
   cat("\n");
   cat("Iterations:", "\n", "", iter, "\n");
   cat("\n");
   cat("Probability level:", "\n", "", cut_p, "\n");
   cat("\n");
-  cat("Calculated PMark:", "\n", "", "+-", PMark, "\n");
+  cat("Calculated PMarks:", "\n", "", mu_cut[1], "", "+", mu_cut[2], "\n");
   cat("\n")
   #structure(list(call = dfa2$call, prior = prior, iter = iter, cut_p = cut_p, PMark = PMark), class = "pmark")
   return(dfa2)
