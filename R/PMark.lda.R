@@ -35,14 +35,5 @@ PMark.lda <- function(object, data = NULL, cut_p, iter = 500, prior = c(0.5,0.5)
   dfa1$PMark <- PMark
   dfa1$cutP <- cut_p
   dfa1$iter <- iter
-  #cat("lda object:", "", as.character(cl[2L]), "\n");
-  #cat("\n");
-  #cat("Iterations:", "\n", "", iter, "\n");
-  #cat("\n");
-  #cat("Probability level:", "\n", "", cut_p, "\n");
-  #cat("\n");
-  #cat("Calculated PMarks:", "\n", "", mu_cut[1], "", "+", mu_cut[2], "\n");
-  #cat("\n")
-  #return(dfa1)
   print.pmark(dfa1)
 }
