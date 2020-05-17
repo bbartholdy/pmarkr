@@ -1,7 +1,6 @@
 #' Probability demarking points for linear discriminant analysis
 #'
 #' This function calculates cutoff points for linear discriminant analysis (lda) using posterior probabilities. The output will be a discriminant score associated with the specified posterior probability found by bootstrapping.
-#' @param x either a formula or an lda object
 #' @param formula formula. groups ~ x1 + x2 + ... + xn.
 #' @param object Object of class lda
 #' @param data data frame from which the variables from the formula will be extracted.
