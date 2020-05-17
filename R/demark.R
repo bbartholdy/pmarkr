@@ -6,6 +6,7 @@
 #' @param n the number of cases to subsample from for random sampling
 #' @param cut_p Numeric. A number between 0 and 1 indicating the probability for the new cutoff points.
 #' @param prior A vector containing the desired prior probability for each group. Default is an uninformative prior.
+#' @param replace Whether to use  replacement (sub-sampling) or not (bootstrap entire sample).
 #' @importFrom MASS lda
 #' @importFrom stats na.omit
 demark <- function(formula, data, n, cut_p, prior, replace = F){

@@ -1,2 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+LICENSE
+pmarkr-notes.Rmd
+Rscript_dichotomy.R

@@ -6,6 +6,7 @@
 #' @param cut_p numeric. Probability of desired PMarks between 0 and 1. Recommended: 0.8, 0.95, or 0.99.
 #' @param iter number of iterations for bootstrapping. Recommended: >= 500. If the number of iterations exceeds the number of different combinations of subsamples, the function will issue a warning.
 #' @param prior A vector containing the desired prior probability for each group. Default is an uninformative prior.
+#' @param replace Whether to use  replacement (sub-sampling) or not (bootstrap entire sample).
 #' @return Returns the PMark value and a plot of the analysis including the PMark value.
 #' @importFrom stats as.formula get_all_vars na.omit
 #' @importFrom ggplot2 ggplot aes geom_density scale_alpha geom_vline xlab ylab theme_bw

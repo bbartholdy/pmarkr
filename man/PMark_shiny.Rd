@@ -4,7 +4,7 @@
 \alias{PMark_shiny}
 \title{Function used to compute PMarks in the shiny app}
 \usage{
-PMark_shiny(formula, data = "MB11", n, cut_p, iter, prior)
+PMark_shiny(formula, data = "MB11", n, cut_p, iter, prior, replace = F)
 }
 \arguments{
 \item{formula}{formula to be used to create the linear discrminant model}

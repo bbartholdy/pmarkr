@@ -4,7 +4,8 @@
 \name{MBhum}
 \alias{MBhum}
 \title{Whole dataset for Middenbeemster.}
-\format{Data frame with 106 rows and 7 variables.
+\format{
+Data frame with 106 rows and 7 variables.
 \describe{
  \item{[,1] ID}{Individual identifier}
 
@@ -16,7 +17,8 @@
 
  \item{[,5] EpiB}{Humeral epicondylar breadth measurement}
 
-}}
+}
+}
 \usage{
 MBhum
 }

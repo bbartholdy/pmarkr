@@ -4,7 +4,7 @@
 \alias{demark}
 \title{Function for use in PMark function}
 \usage{
-demark(formula, data, n, cut_p, prior)
+demark(formula, data, n, cut_p, prior, replace = F)
 }
 \arguments{
 \item{formula}{formula.}
