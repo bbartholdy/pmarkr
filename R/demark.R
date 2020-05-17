@@ -19,7 +19,7 @@ demark <- function(formula, data, n, cut_p, prior, replace = F){
   pred_lda$group_2 <- pred_lda$x[round(pred_lda$posterior[,2])== cutP]
   pred_lda$group_1[is.null(pred_lda$group_1)] <- NA
   pred_lda$group_2[is.null(pred_lda$group_2)] <- NA
-  cut <- cbind(pred_lda$group_1, pred_lda$group_2)
+  suppressWarnings(cut <- cbind(pred_lda$group_1, pred_lda$group_2))
   #cut <- colMeans(cut, na.rm = T)
   return(cut)
 }

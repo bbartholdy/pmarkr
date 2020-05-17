@@ -1,5 +1,5 @@
 #' @describeIn PMark Probability demarking points for linear discriminant analysis using a formula
-PMark.default <- function(formula, data, n, cut_p, iter, prior = c(0.5,0.5), replace = F){
+PMark.default <- function(formula, data, cut_p, iter = 500, prior = c(0.5,0.5), replace = T, n = NULL){
   #mod.fr <- terms(formula)
   #vars <- attr(mod.fr, "variables")
   cl <- match.call()
@@ -7,6 +7,9 @@ PMark.default <- function(formula, data, n, cut_p, iter, prior = c(0.5,0.5), rep
   groups <- length(levels(mf[,1]))
   if(groups != 2){
     stop(paste("PMark can only be used in a 2-group discriminant analysis. Number of groups detected in data:", groups))
+  }
+  if(is.null(n)){
+    n <- length(mf[,1])
   }
   datf <- as.data.frame(data)
   dfa2 <- lda(formula, datf, prior = prior)
@@ -23,15 +26,18 @@ PMark.default <- function(formula, data, n, cut_p, iter, prior = c(0.5,0.5), rep
     warning("The number of iterations exceeds the number of combinations of subsamples")
   }
   class(dfa2) <- "pmark"
+  dfa2$call <- cl
   dfa2$PMark <- mu_cut
-  cat("Formula:", "", as.character(cl[2L]), "\n");
-  cat("\n");
-  cat("Iterations:", "\n", "", iter, "\n");
-  cat("\n");
-  cat("Probability level:", "\n", "", cut_p, "\n");
-  cat("\n");
-  cat("Calculated PMarks:", "\n", "", mu_cut[1], "", "+", mu_cut[2], "\n");
-  cat("\n")
+  dfa2$cutP <- cut_p
+  dfa2$iter <- iter
+  #cat("Formula:", "", as.character(cl[2L]), "\n");
+  #cat("\n");
+  #cat("Iterations:", "\n", "", iter, "\n");
+  #cat("\n");
+  #cat("Probability level:", "\n", "", cut_p, "\n");
+  #cat("\n");
+  #cat("Calculated PMarks:", "\n", "", mu_cut[1], "", "+", mu_cut[2], "\n");
+  #cat("\n")
   #structure(list(call = dfa2$call, prior = prior, iter = iter, cut_p = cut_p, PMark = PMark), class = "pmark")
-  return(dfa2)
+  print.pmark(dfa2)
 }
