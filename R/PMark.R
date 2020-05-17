@@ -15,4 +15,4 @@
 #' @example inst/PMarkex.R
 #' @importFrom stats terms as.formula model.frame
 #' @export PMark
-PMark <- function(x, data, n, cut_p, iter, prior = c(0.5,0.5)) UseMethod("PMark")
+PMark <- function(x, data, n, cut_p, iter, prior = c(0.5,0.5)) UseMethod("PMark", x)
