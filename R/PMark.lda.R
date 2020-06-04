@@ -5,7 +5,7 @@ PMark.lda <- function(object, data = NULL, cut_p, iter = 500, prior = c(0.5,0.5)
     stop("Can only be used on class 'lda'")
   }
   if(is.null(n)){
-    n <- length(object$N)
+  n <- length(object$N)
   }
   cl <- object$call
   dfa1 <- object

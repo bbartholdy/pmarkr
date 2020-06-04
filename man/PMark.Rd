@@ -8,9 +8,7 @@
 \alias{PMark.lda}
 \title{Probability demarking points for linear discriminant analysis}
 \usage{
-PMark(x, ...)
-
-\method{PMark}{default}(
+PMark(
   formula,
   data,
   cut_p,
@@ -20,7 +18,7 @@ PMark(x, ...)
   n = NULL
 )
 
-\method{PMark}{formula}(
+PMark.default(
   formula,
   data,
   cut_p,
@@ -30,7 +28,17 @@ PMark(x, ...)
   n = NULL
 )
 
-\method{PMark}{lda}(
+PMark.formula(
+  formula,
+  data,
+  cut_p,
+  iter = 500,
+  prior = c(0.5, 0.5),
+  replace = T,
+  n = NULL
+)
+
+PMark.lda(
   object,
   data = NULL,
   cut_p,
@@ -41,8 +49,6 @@ PMark(x, ...)
 )
 }
 \arguments{
-\item{x}{either a formula or an lda object}
-
 \item{formula}{formula. groups ~ x1 + x2 + ... + xn.}
 
 \item{data}{data frame from which the variables from the formula will be extracted.}
@@ -55,9 +61,7 @@ PMark(x, ...)
 
 \item{replace}{Whether to use  replacement (sub-sampling) or not (bootstrap entire sample).}
 
-\item{n}{size of the subsample for random sampling. Must not exceed the total sample size.}
-
-\item{object}{Object of class lda}
+\item{n}{size of the subsample for random sampling. Must not exceed the total sample size. Default is bootstrapping entire sample.}
 }
 \value{
 An object of class "pmark", which is identical to an "lda" object, but with $PMark added to the list,
@@ -66,23 +70,23 @@ which contains the computed PMark values for each group.
 \description{
 This function calculates cutoff points for linear discriminant analysis (lda) using posterior probabilities. The output will be a discriminant score associated with the specified posterior probability found by bootstrapping.
 }
-\section{Methods (by class)}{
+\section{Functions}{
 \itemize{
-\item \code{default}: Probability demarking points for linear discriminant analysis using a formula
+\item \code{PMark.default}: Probability demarking points for linear discriminant analysis using a formula
 
-\item \code{formula}: Probability demarking points for linear discriminant analysis using a formula
+\item \code{PMark.formula}: Probability demarking points for linear discriminant analysis using a formula
 
-\item \code{lda}: Probability demarking points for linear discriminant analysis using an object of class 'lda'.
+\item \code{PMark.lda}: Probability demarking points for linear discriminant analysis using an object of class 'lda'.
 }}
 
 \examples{
 #PMark example
 #example using a formula:
-mark1 <- PMark(Sex ~ HeadD, MBhum, 80, 0.95, 500, prior = c(0.5,0.5))
+mark1 <- PMark(Sex ~ HeadD, MBhum, 0.95, 500)
 mark1$PMark
 #example using an lda object
 dfa1 <- MASS::lda(Sex ~ HeadD + EpiB, MBhum)
-mark2 <- PMark(dfa1, n = 80, cut_p = 0.8, iter = 500)
+mark2 <- PMark.lda(dfa1, cut_p = 0.8, iter = 500)
 mark2$PMark
 }
 \seealso{
