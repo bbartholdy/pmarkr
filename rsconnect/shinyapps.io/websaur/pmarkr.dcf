@@ -1,0 +1,10 @@
+name: pmarkr
+title:
+username:
+account: websaur
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2410100
+bundleId: 3229702
+url: https://websaur.shinyapps.io/pmarkr/
+when: 1591303197.83731
