@@ -16,6 +16,8 @@ demark(formula, data, n, cut_p, prior, replace = F)
 \item{cut_p}{Numeric. A number between 0 and 1 indicating the probability for the new cutoff points.}
 
 \item{prior}{A vector containing the desired prior probability for each group. Default is an uninformative prior.}
+
+\item{replace}{Whether to use  replacement (sub-sampling) or not (bootstrap entire sample).}
 }
 \description{
 This function is used by PMark to calculate the cutoff points based on a given probability

@@ -1,5 +1,6 @@
-#' @describeIn PMark Probability demarking points for linear discriminant analysis using a formula
-PMark.default <- function(formula, data, cut_p, iter = 500, prior = c(0.5,0.5), replace = T, n = NULL){
+#' @method pmark default
+#' @export
+pmark.default <- function(formula, data, cut_p, iter = 500, prior = c(0.5,0.5), replace = T, n = NULL){
   #mod.fr <- terms(formula)
   #vars <- attr(mod.fr, "variables")
   cl <- match.call()
@@ -22,8 +23,10 @@ PMark.default <- function(formula, data, cut_p, iter = 500, prior = c(0.5,0.5), 
   N <- nrow(datf)
   nCk <- factorial(N) / (factorial(n)*factorial(N - n))
   #make sure the number of combinations does not exceed number of replicates
-  if(iter > nCk){
-    warning("The number of iterations exceeds the number of combinations of subsamples")
+  if(replace == F){
+    if(iter > nCk){
+      warning("The number of iterations exceeds the number of combinations of subsamples")
+    }
   }
   class(dfa2) <- "pmark"
   dfa2$call <- cl

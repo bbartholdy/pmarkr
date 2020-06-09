@@ -18,6 +18,8 @@ PMark_shiny(formula, data = "MB11", n, cut_p, iter, prior, replace = F)
 \item{iter}{number of iterations for bootstrapping. Recommended: >= 500. If the number of iterations exceeds the number of different combinations of subsamples, the function will issue a warning.}
 
 \item{prior}{A vector containing the desired prior probability for each group. Default is an uninformative prior.}
+
+\item{replace}{Whether to use  replacement (sub-sampling) or not (bootstrap entire sample).}
 }
 \value{
 Returns the PMark value and a plot of the analysis including the PMark value.

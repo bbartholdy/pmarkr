@@ -1,5 +1,7 @@
-#' @describeIn PMark
-print.pmark <- function (x, ...){
+#' Printing method for pmark funcitons.
+#'
+#' @param x object of type 'pmark'.
+print.pmark <- function (x){
   cl <- x$call
   names(cl) <- ""
   cat("\nFormula:\n")

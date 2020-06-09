@@ -1,8 +1,8 @@
 #PMark example
-#example using a formula:
-mark1 <- PMark(Sex ~ HeadD, MBhum, 80, 0.95, 500, prior = c(0.5,0.5))
+#example using a formula (and 95% PMarks):
+mark1 <- pmark(Sex ~ HeadD, MBhum, 0.95)
 mark1$PMark
-#example using an lda object
+#example using an lda object and resampling without replacement.
 dfa1 <- MASS::lda(Sex ~ HeadD + EpiB, MBhum)
-mark2 <- PMark(dfa1, n = 80, cut_p = 0.8, iter = 500)
+mark2 <- pmark(dfa1, cut_p = 0.8, replace = FALSE, n = 80)
 mark2$PMark
