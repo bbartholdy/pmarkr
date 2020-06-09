@@ -1,6 +1,6 @@
-#' @method pmark default
+#' @rdname pmark
 #' @export
-pmark.default <- function(formula, data, cut_p, iter = 500, prior = c(0.5,0.5), replace = T, n = NULL){
+pmark.default <- function(formula, data, cut_p, iter = 500, prior = c(0.5,0.5), replace = T, n = NULL, ...){
   #mod.fr <- terms(formula)
   #vars <- attr(mod.fr, "variables")
   cl <- match.call()

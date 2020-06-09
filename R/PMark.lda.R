@@ -1,5 +1,6 @@
+#' @rdname pmark
 #' @export
-pmark.lda <- function(object, data = NULL, cut_p, iter = 500, prior = c(0.5,0.5), replace = T, n = NULL){
+pmark.lda <- function(object, data = NULL, cut_p, ..., iter = 500, prior = c(0.5,0.5), replace = T, n = NULL){
   if(class(object) != "lda"){
     stop("Can only be used on class 'lda'")
   }

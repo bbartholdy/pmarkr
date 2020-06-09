@@ -1,6 +1,6 @@
 #' @rdname pmark
 #' @export
-PMark.formula <- function(formula, data, cut_p, iter = 500, prior = c(0.5,0.5), replace = T, n = NULL){
+pmark.formula <- function(formula, data, cut_p, iter = 500, prior = c(0.5,0.5), replace = T, n = NULL, ...){
 
   cl <- match.call()
   mf <- model.frame(formula, data = data)
