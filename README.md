@@ -5,6 +5,8 @@ The user defines the desired probability, and the PMark function calculates a di
 The package is designed for use in the sex estimation of skeletal remains, where additional cut-off points may be desired to account for the uncertainty of male and female classifications (e.g. female, probable female, indeterminate, etc.).
 It also contains an auxillary function to estimate sex using humeral measurements (max length, head diameter, and epicondylar breadth).
 
+It is possible to bypass R entirely and access the pmarkr web app: https://websaur.shinyapps.io/pmarkrapp/
+
 # Installation
 1. To install pmarkr, R (>= 3.5.1) must first be installed (https://cran.r-project.org/).
 
