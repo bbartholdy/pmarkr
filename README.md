@@ -1,5 +1,7 @@
 # pmarkr
 
+This repo will be archived until I am able to return to working on it.
+
 This package provides functions for calculating additional cut-off points for two-group linear discriminant analysis based on probability.
 The user defines the desired probability, and the PMark function calculates a discriminant score based on the specified probability. 
 The package is designed for use in the sex estimation of skeletal remains, where additional cut-off points may be desired to account for the uncertainty of male and female classifications (e.g. female, probable female, indeterminate, etc.).
